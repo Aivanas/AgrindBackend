@@ -4,10 +4,9 @@ import (
 	"AgringBackend/config"
 	"AgringBackend/models"
 	"AgringBackend/routes"
-	"log"
-
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"log"
 )
 
 func main() {
@@ -25,25 +24,25 @@ func main() {
 		&models.Vehicle{},
 		&models.VehicleCategory{},
 		&models.VehicleStatus{},
-		&models.Employee{},
-		&models.EmployeeRole{},
+		&models.User{},
+		&models.UsersRoles{},
 		&models.Role{},
 		&models.Field{},
-		&models.FieldStatusInfo{},
-		&models.FieldStatusList{},
+		&models.FieldStatus{},
 		&models.Crop{},
+		&models.WorkType{},
+		&models.FieldWorkers{},
 	)
 	if err != nil {
-		return
+		log.Fatal("Migration failed:", err)
 	}
 
-	// Настройка маршрутов
+	// Инициализация Gin
 	r := gin.Default()
 	routes.RegisterRoutes(r)
 
 	// Запуск сервера
-	err = r.Run("0.0.0.0:8082")
-	if err != nil {
-		return
+	if err := r.Run(":8085"); err != nil {
+		log.Fatal(err)
 	}
 }
